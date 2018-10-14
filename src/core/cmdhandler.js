@@ -1,7 +1,7 @@
-const Main = require('../main')
-const { CmdParser } = require('discordjs-cmds')
-const Embeds = require('../util/embeds')
-const Guildpres = require('../util/guildpres')
+const Main = require('../main');
+const { CmdParser } = require('discordjs-cmds');
+const Embeds = require('../util/embeds');
+const Guildpres = require('../util/guildpres');
 
 
 /*
@@ -110,7 +110,7 @@ class CmdHandler {
                 'quote',
                 ['q'],
                 'Quote a message of any channel in the guild',
-                `\`${prefix}user <messageID>\`\n`,
+                `\`${prefix}quote <messageID>\`\n`,
                 this.cmd.type.CHAT,
                 0
             )
@@ -223,7 +223,7 @@ class CmdHandler {
                 'Clear an ammount of messages in a chat',
                 `\`${prefix}clear <ammount>\`\n` +
                 `\`${prefix}clear <ammount> <user>\`\n` +
-                `\`${prefix}prefix\`\n`,
+                `\`${prefix}clear\`\n`,
                 this.cmd.type.MODERATION,
                 4
             )
@@ -332,7 +332,7 @@ class CmdHandler {
                 require('../commands/suggestion').ex,
                 'suggest',
                 ['wish'],
-                'Submit your guggestions about this bot',
+                'Submit your suggestions about this bot',
                 `\`${prefix}suggest <message>\`\n`,
                 this.cmd.type.CHAT,
                 0
@@ -436,7 +436,7 @@ class CmdHandler {
                 require('../commands/passgen').ex,
                 'passgen',
                 ['password', 'pw'],
-                'Generatr a random and safe password with some parameters',
+                'Generate a random and safe password with some parameters',
                 `\`${prefix}passgen <length> <charset as RegExpr OR Safety Level>\`\n` +
                 `Safety Levels:\n0 - ver simple\n1 - simple\n2 - normal\n3 - heavy\n4 - ultra heavy\n`,
                 this.cmd.type.MISC,
@@ -502,7 +502,7 @@ class CmdHandler {
                 require('../commands/lobby').ex,
                 'lobby',
                 [],
-                'CReate a lobby where people can join',
+                'Create a lobby where people can join',
                 `\`${prefix}lobby (-t <title>) (-max <max participants>) (-expire <expire time in minutes>) <message>\`\n` +
                 `\`${prefix}lobby close\`\n`,
                 this.cmd.type.CHAT,
@@ -518,29 +518,29 @@ class CmdHandler {
                 `\`${prefix}private close\`\n`,
                 this.cmd.type.CHAT,
                 0
-            )
+            );
 
 
         if (Main.TESTING_MODE)
             this.cmd.createDocs("./cmdlist.md", "md", () => {
                 Logger.info("Created commands list")
-            })
+            });
 
         this.cmd.on('commandFailed', (type, msg, err) => 
             console.log(type, err)
-        )
+        );
         this.cmd.on('commandFailed', (type, msg, err) => 
             Embeds.error(msg.channel, `Error Type: *\`${type}\`*\n\nError:\n\`\`\`\n${err}\n\`\`\``, "COMMAND ERROR")
-        )
+        );
 
         if (Main.config.logcmds) {
             this.cmd.on('commandExecuted', msg => {
                 this.cmd.cmdsExecuted++
                 if (Main.config.logcmds) {
-                    var timeutils = require('../util/timeutil')
-                    let chan = msg.channel
-                    let memb = msg.member
-                    let guild = memb.guild
+                    const timeutils = require('../util/timeutil');
+                    let chan = msg.channel;
+                    let memb = msg.member;
+                    let guild = memb.guild;
                     try {
                         Main.mysql.query(`INSERT INTO cmdlog (guild_id, guild_name, user_id, user_tag, \
                                           channel_id, channel_name, msg_cont, time_text, timestamp) \
